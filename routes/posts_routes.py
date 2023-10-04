@@ -86,13 +86,18 @@ def insert_article(author_id):
 
 
 # DELETE /articles/<str:author_id> - delete an article using article_id
-@bp.route('/articles/<string:article_id>', methods=['DELETE'])
+@bp.route('/articles/<string:author_id>/<string:article_id>', methods=['DELETE'])
 @swag_from(methods=['DELETE'])
-def delete_article(article_id):
+def delete_article(author_id, article_id):
     """
     Delete an article by its ID.
     ---
     parameters:
+      - name: author_id
+        in: path
+        type: string
+        required: true
+        description: The ID of the owner of the article.
       - name: article_id
         in: path
         type: string
@@ -110,18 +115,23 @@ def delete_article(article_id):
 
 
 # PUT /articles/<str:author_id> - update the content of an article
-@bp.route('/articles/<string:article_id>', methods=['PUT'])
+@bp.route('/articles/<string:author_id>/<string:article_id>', methods=['PUT'])
 @swag_from(methods=['PUT'])
-def update_article_content(article_id):
+def update_article_content(author_id, article_id):
     """
     Update the content of an article by its ID.
     ---
     parameters:
+      - name: author_id
+        in: path
+        type: string
+        required: true
+        description: The ID of the author of the article.
       - name: article_id
         in: path
         type: string
         required: true
-        description: The ID of the article to update.
+        description: The id of the article to update.
       - name: content
         in: formData
         type: string
@@ -135,6 +145,7 @@ def update_article_content(article_id):
     """
     updated_data = {"content": request.form.get("content"),
                     "updated_at": get_current_date()}
+    # id = request.form.get("article_id")
     result = storage.update_post(article_id, updated_data)
     if result.modified_count == 1:
         return jsonify({"message": "Article updated successfully"})

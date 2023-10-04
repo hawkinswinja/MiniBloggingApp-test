@@ -72,7 +72,7 @@ class TestPostsRoutes(TestCase):
         post_id = str(result.inserted_id)
 
         # Send a DELETE request to /articles/<post_id>
-        response = self.client.delete(f'/articles/{post_id}')
+        response = self.client.delete(f'/articles/author1/{post_id}')
 
         # Check if the response status code is 204 (No Content)
         self.assertStatus(response, 204)
@@ -97,7 +97,7 @@ class TestPostsRoutes(TestCase):
         updated_content = {
             "content": "Updated Content",
         }
-        response = self.client.put(f'/articles/{post_id}',
+        response = self.client.put(f'/articles/author1/{post_id}',
                                    data=updated_content)
 
         # Check if the response status code is 200 (OK)

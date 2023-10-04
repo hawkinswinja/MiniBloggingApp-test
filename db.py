@@ -43,7 +43,7 @@ class Database:
 
     def insert_post(self, post_data):
         try:
-            post = self.posts_collection.insert_one(post_data) 
+            post = self.posts_collection.insert_one(post_data)
         except Exception as e:
             print(f"Error inserting post: {e}")
             return 1
@@ -60,7 +60,7 @@ class Database:
     def update_post(self, post_id, updated_data):
         try:
             post = self.posts_collection.update_one({"_id": ObjectId(post_id)},
-                                             {"$set": updated_data})
+                                                    {"$set": updated_data})
         except Exception as e:
             print(f"Error updating post: {e}")
             return 1
