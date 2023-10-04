@@ -1,16 +1,14 @@
 from flask import Flask
-from flask_restplus import Api
-from routes import views
+from flasgger import Swagger
+from routes import bp  # Import the blueprint from the routes module
 
-# Create a Flask app instance
 app = Flask(__name__)
 
-# Load app configuration
-app.config.from_object("config")
+# Configure Flasgger
+swagger = Swagger(app)
 
-# Create an API instance
-api = Api(app, version="1.0", title="Mini Blog API",
-          description="Defines the Endpoints for Mini Blog Api")
+# Register the users blueprint
+app.register_blueprint(bp)
 
-# Register the status blueprint
-app.register_blueprint(views)
+if __name__ == "__main__":
+    app.run(debug=True)
