@@ -23,7 +23,7 @@ class Database:
             return posts
         except Exception as e:
             print(f"author id invalid: {e}")
-            return 1  # Return an empty list as a default in case of an error
+            return []# Return an empty list as a default in case of an error
 
     def insert_user(self, user_data):
         try:
@@ -31,7 +31,7 @@ class Database:
             return user
         except Exception as e:
             print(f"Error inserting user: {e}")
-            return 1
+            return
 
     def find_user_by_username(self, username):
         try:
@@ -46,7 +46,7 @@ class Database:
             post = self.posts_collection.insert_one(post_data)
         except Exception as e:
             print(f"Error inserting post: {e}")
-            return 1
+            post = None
         return post
 
     def find_post_by_id(self, post_id):
@@ -63,7 +63,7 @@ class Database:
                                                     {"$set": updated_data})
         except Exception as e:
             print(f"Error updating post: {e}")
-            return 1
+            post = None
         return post
 
     def delete_post(self, post_id):
@@ -71,5 +71,5 @@ class Database:
             result = self.posts_collection.delete_one({"_id": ObjectId(post_id)})
         except Exception as e:
             print(f"Error deleting post: {e}")
-            return 1
+            result = None
         return result
