@@ -24,5 +24,5 @@ def status():
     return jsonify({"status": "success"})
 
 
-from posts_routes import *
-from users_routes import *
+from routes.posts_routes import *
+from routes.users_routes import *

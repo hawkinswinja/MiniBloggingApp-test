@@ -1,6 +1,5 @@
 import unittest
 from db import Database
-from bson.objectid import ObjectId
 
 
 class TestDatabase(unittest.TestCase):

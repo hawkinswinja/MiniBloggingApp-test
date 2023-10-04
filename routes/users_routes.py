@@ -1,7 +1,6 @@
 from flask import jsonify, request
 from . import bp, storage, swag_from, redis_client
-from auth import Auth
-
+from routes.auth import Auth
 
 
 @bp.route('/register', methods=['POST'])
@@ -41,7 +40,7 @@ def register_user():
     hashed_password = Auth.hash_password(password)
 
     # Store the user information using the Database instance
-    user_data = {'email': email, 'username': username,
+    user_data = {'_id': Auth.get_token(),'email': email, 'username': username,
                  'password': hashed_password}
     result = storage.insert_user(user_data)
 
@@ -58,13 +57,15 @@ def login_user():
     Authenticate and log in a user.
     ---
     parameters:
-      - name: email
-        in: formData
-        type: string
-        description: The user's email.
+      # - name: email
+      #   in: formData
+      #   type: string
+      #   description: The user's email.
+      #   required: true
       - name: username
         in: formData
         type: string
+        required: true
         description: The user's username.
       - name: password
         in: formData
@@ -88,7 +89,7 @@ def login_user():
     if user and Auth.validate(password, user['password']):
         # Generate a token and store it in Redis
         token = Auth.get_token()
-        redis_client.set(token, username)
+        redis_client.set(token, str(user['_id']))
         return jsonify({'token': token}), 200
     else:
         return jsonify({'error': 'Authentication failed'}), 401
@@ -99,6 +100,12 @@ def login_user():
 def get(self):
     """
     Log out the current user by deleting their token from Redis.
+    parameters:
+      - name: Authorization
+        in: header
+        description: The authorization token.
+        required: true
+        type: string
     responses:
       200:
         description: A message indicating successful logout.
