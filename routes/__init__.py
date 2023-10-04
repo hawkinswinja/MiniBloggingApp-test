@@ -1,6 +1,10 @@
+import redis
 from flask import Blueprint, jsonify
 from flasgger import swag_from
 from db import Database
+
+# Create a Redis client
+redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 
 storage = Database()
@@ -20,4 +24,5 @@ def status():
     return jsonify({"status": "success"})
 
 
-from routes.posts_routes import *
+from posts_routes import *
+from users_routes import *

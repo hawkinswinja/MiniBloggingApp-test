@@ -1,4 +1,3 @@
-from bson.json_util import dumps
 from flask import jsonify, request
 from . import bp, storage, swag_from  # Imported from __init__.py
 from datetime import datetime
