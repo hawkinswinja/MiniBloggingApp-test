@@ -1,15 +1,16 @@
 from flask import Flask
-# from config.py import Config  # Import your app's configuration
-from models.db import Database  # Import the Database class
+from flask_restplus import Api
+from routes import views
 
+# Create a Flask app instance
 app = Flask(__name__)
-# app.config.from_object(Config)  # Load your app's configuration
 
-db = Database()  # Initialize the database
-result = db.insert_post({"post": "hello testing12345"})
-print(result.get("_id"))
+# Load app configuration
+app.config.from_object("config")
 
-# Define your routes and other app configurations here
+# Create an API instance
+api = Api(app, version="1.0", title="Mini Blog API",
+          description="Defines the Endpoints for Mini Blog Api")
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# Register the status blueprint
+app.register_blueprint(views)

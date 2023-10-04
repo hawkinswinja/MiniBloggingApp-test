@@ -1,5 +1,5 @@
 import unittest
-from models.db import Database
+from db import Database
 from bson.objectid import ObjectId
 
 
