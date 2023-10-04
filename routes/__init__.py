@@ -1,10 +1,19 @@
-from flask import Blueprint
-from flask_restx import Resource, Namespace
+from flask import Blueprint, jsonify
+from flasgger import swag_from
 
-blog_ns = Namespace("blog")
-blog_bp = Blueprint("blog", __name__)
+bp = Blueprint("blog", __name__)
 
-@blog_ns.route("/")
-def get(self):
-    return {"status": "success"}, 200
 
+@bp.route('/status', methods=['GET'])
+@swag_from(methods=['GET'])  # Specify that Swagger documentation comes from docstrings
+def status():
+    """
+    Get the status of the API.
+    ---
+    responses:
+      200:
+        description: Success, the API is up and running.
+    """
+    return jsonify({"status": "success"})
+
+from routes.posts_routes import *
