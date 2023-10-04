@@ -4,10 +4,10 @@ from bson.objectid import ObjectId
 
 class Database:
     def __init__(self):
-        # self.client = MongoClient(current_app.config['MONGODB_URI'])
+        # self.client = MongoClient(getenv('MONGODB_URI'))
         self.client = MongoClient('mongodb://127.0.0.1:27017/blog_collections')
-        # self.db = self.client[current_app.config['MONGODB_DB']]
-        self.db = self.client['blog_collections']
+        self.db = self.client['blog_app']
+        # self.db = self.client[getenv('MONGODB_DB')]
         self.users_collection = self.db['users']
         self.posts_collection = self.db['posts']
 
@@ -18,12 +18,10 @@ class Database:
                 posts = list(self.posts_collection.find({"author_id": author_id}))
             else:
                 posts = list(self.posts_collection.find())
-            for post in posts:
-                post['_id'] = str(post['_id'])
-            return posts
         except Exception as e:
             print(f"author id invalid: {e}")
-            return []# Return an empty list as a default in case of an error
+            return []  # Return an empty list as a default in case of an error
+        return posts
 
     def insert_user(self, user_data):
         try:
