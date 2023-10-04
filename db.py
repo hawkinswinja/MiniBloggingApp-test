@@ -12,54 +12,64 @@ class Database:
         self.posts_collection = self.db['posts']
 
     def find_posts_by_author(self, author_id=None):
+        "return list of posts on success"
         try:
             if author_id:
-                return list(self.posts_collection.find({"author_id": author_id}))
+                posts = list(self.posts_collection.find({"author_id": author_id}))
             else:
-                return list(self.posts_collection.find())
+                posts = list(self.posts_collection.find())
+            for post in posts:
+                post['_id'] = str(post['_id'])
+            return posts
         except Exception as e:
-            print(f"Error inserting user: {e}")
-            return []  # Return an empty list as a default in case of an error
+            print(f"author id invalid: {e}")
+            return 1  # Return an empty list as a default in case of an error
 
     def insert_user(self, user_data):
         try:
-            return self.users_collection.insert_one(user_data)
+            user = self.users_collection.insert_one(user_data)
+            return user
         except Exception as e:
             print(f"Error inserting user: {e}")
-            return []
+            return 1
 
     def find_user_by_username(self, username):
         try:
-            return self.users_collection.find_one({"username": username})
+            user = self.users_collection.find_one({"username": username})
         except Exception as e:
             print(f"Error finding user: {e}")
-            return []
+            return 1
+        return user
 
     def insert_post(self, post_data):
         try:
-            return self.posts_collection.insert_one(post_data)
+            post = self.posts_collection.insert_one(post_data) 
         except Exception as e:
             print(f"Error inserting post: {e}")
-            return []
+            return 1
+        return post
 
     def find_post_by_id(self, post_id):
         try:
-            return self.posts_collection.find_one({"_id": ObjectId(post_id)})
+            post = self.posts_collection.find_one({"_id": ObjectId(post_id)})
         except Exception as e:
             print(f"Error finding post: {e}")
-            return []
+            post = None
+        return post
 
     def update_post(self, post_id, updated_data):
         try:
-            return self.posts_collection.update_one({"_id": ObjectId(post_id)},
-                                                    {"$set": updated_data})
+            post = self.posts_collection.update_one({"_id": ObjectId(post_id)},
+                                             {"$set": updated_data})
         except Exception as e:
             print(f"Error updating post: {e}")
-            return None
+            return 1
+        return post
 
     def delete_post(self, post_id):
         try:
-            return self.posts_collection.delete_one({"_id": ObjectId(post_id)})
+            result = self.posts_collection.delete_one({"_id": ObjectId(post_id)})
         except Exception as e:
             print(f"Error deleting post: {e}")
-            return None
+            return 1
+        return result

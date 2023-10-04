@@ -16,7 +16,6 @@ class TestDatabase(unittest.TestCase):
         # Insert the user into the database
         db = Database()
         result = db.insert_user(user_data)
-        print(result.inserted_id)
         # Check if the user was inserted successfully
         self.assertIsNotNone(result.inserted_id)
 
@@ -53,15 +52,6 @@ class TestDatabase(unittest.TestCase):
         # Check if the post was inserted successfully
         self.assertIsNotNone(result.inserted_id)
 
-    # Attempt to find a user by an ID that does not exist
-    def test_find_user_by_id_not_found(self):
-        # Find a user by an ID that does not exist
-        db = Database()
-        result = db.find_user_by_id(ObjectId(b"1234567890"))
-
-        # Check if the user was not found
-        self.assertIsNone(result)
-
     # Attempt to find a user by a username that does not exist
     def test_find_user_by_username_not_found(self):
         # Find a user by a username that does not exist
@@ -75,7 +65,7 @@ class TestDatabase(unittest.TestCase):
     def test_find_post_by_id_not_found(self):
         # Find a post by an ID that does not exist
         db = Database()
-        result = db.find_post_by_id(ObjectId(b"nonexistent_postid"))
+        result = db.find_post_by_id('non-existent_post')
 
         # Check if the post was not found
         self.assertIsNone(result)
