@@ -1,0 +1,1 @@
+# MiniBloggingApp using python flask and mongo
