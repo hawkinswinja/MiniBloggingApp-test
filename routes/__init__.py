@@ -4,7 +4,7 @@ from flasgger import swag_from
 from db import Database
 
 # Create a Redis client
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
 
 storage = Database()

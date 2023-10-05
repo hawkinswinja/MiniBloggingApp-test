@@ -15,6 +15,7 @@ class TestDatabase(unittest.TestCase):
         # Insert the user into the database
         db = Database()
         result = db.insert_user(user_data)
+        print(result.inserted_id)
         # Check if the user was inserted successfully
         self.assertIsNotNone(result.inserted_id)
 
@@ -84,6 +85,7 @@ class TestDatabase(unittest.TestCase):
         # Find the post by its ID
         post_id = result.inserted_id
         found_post = db.find_post_by_id(post_id)
+        print('post _id: ', found_post['_id'])
 
         # Check if the post was found successfully
         self.assertEqual(found_post["_id"], post_id)

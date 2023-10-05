@@ -10,16 +10,11 @@ def register_user():
     Register a new user.
     ---
     parameters:
-      - name: email
-        in: formData
-        type: string
-        required: true
-        description: The user's email.
       - name: username
         in: formData
         type: string
         required: true
-        description: The desired username.
+        description: unique username.
       - name: password
         in: formData
         type: string
@@ -32,7 +27,6 @@ def register_user():
         description: Bad request, user registration failed.
     """
     data = request.form
-    email = data.get('email')
     username = data.get('username')
     password = data.get('password')
 
@@ -40,7 +34,7 @@ def register_user():
     hashed_password = Auth.hash_password(password)
 
     # Store the user information using the Database instance
-    user_data = {'_id': Auth.get_token(),'email': email, 'username': username,
+    user_data = {'username': username,
                  'password': hashed_password}
     result = storage.insert_user(user_data)
 
@@ -89,7 +83,7 @@ def login_user():
     if user and Auth.validate(password, user['password']):
         # Generate a token and store it in Redis
         token = Auth.get_token()
-        redis_client.set(token, str(user['_id']))
+        redis_client.set(token, user['_id'])
         return jsonify({'token': token}), 200
     else:
         return jsonify({'error': 'Authentication failed'}), 401
@@ -97,9 +91,10 @@ def login_user():
 
 @bp.route('/logout', methods=['GET'])
 @swag_from(methods=['GET'])
-def get(self):
+def logout():
     """
     Log out the current user by deleting their token from Redis.
+    ---
     parameters:
       - name: Authorization
         in: header

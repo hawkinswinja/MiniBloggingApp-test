@@ -1,5 +1,13 @@
 from pymongo import MongoClient
-from bson.objectid import ObjectId
+from datetime import datetime
+
+
+def get_current_date():
+    """
+    Get the current date in string format (YYYY-MM-DD).
+    """
+    current_date = datetime.now()
+    return current_date.strftime('%Y-%m-%d  %H:%M:%S')
 
 
 class Database:
@@ -24,6 +32,8 @@ class Database:
         return posts
 
     def insert_user(self, user_data):
+        from routes.auth import Auth
+        user_data['_id'] = Auth.get_token()
         try:
             user = self.users_collection.insert_one(user_data)
             return user
@@ -40,6 +50,9 @@ class Database:
         return user
 
     def insert_post(self, post_data):
+        from routes.auth import Auth
+        post_data["_id"] = Auth.get_token()
+        post_data["created_at"] = get_current_date()
         try:
             post = self.posts_collection.insert_one(post_data)
         except Exception as e:
@@ -49,15 +62,16 @@ class Database:
 
     def find_post_by_id(self, post_id):
         try:
-            post = self.posts_collection.find_one({"_id": ObjectId(post_id)})
+            post = self.posts_collection.find_one({"_id": post_id})
         except Exception as e:
             print(f"Error finding post: {e}")
             post = None
         return post
 
     def update_post(self, post_id, updated_data):
+        updated_data["updated_at"] = get_current_date()
         try:
-            post = self.posts_collection.update_one({"_id": ObjectId(post_id)},
+            post = self.posts_collection.update_one({"_id": post_id},
                                                     {"$set": updated_data})
         except Exception as e:
             print(f"Error updating post: {e}")
@@ -66,7 +80,7 @@ class Database:
 
     def delete_post(self, post_id):
         try:
-            result = self.posts_collection.delete_one({"_id": ObjectId(post_id)})
+            result = self.posts_collection.delete_one({"_id": post_id})
         except Exception as e:
             print(f"Error deleting post: {e}")
             result = None
