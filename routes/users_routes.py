@@ -3,7 +3,7 @@ from . import bp, storage, swag_from, redis_client
 from routes.auth import Auth
 
 
-@bp.route('/register', methods=['POST'])
+@bp.route('/signup', methods=['POST'])
 @swag_from(methods=['POST'])
 def register_user():
     """

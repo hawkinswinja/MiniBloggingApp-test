@@ -1,14 +1,18 @@
 #!/usr/bin/python3
 import cmd
-import requests
 import inspect
+import requests
 import subprocess
+from os import getenv
+from dotenv import load_dotenv
+# Load environment variables from .env file
+load_dotenv()
 
 
 class BlogAppConsole(cmd.Cmd):
     intro = "\n\t\t**Welcome to Blog App Console**\nType 'help' for a list of commands or 'exit' to quit.\n"
     prompt = 'blog-app> '
-    url = 'http://localhost:5000'  # Use the correct URL for your application
+    url = getenv('URL', 'http://localhost:5000')
 
     def do_exit(self, arg):
         """Exit the Blog App Console."""

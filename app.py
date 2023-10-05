@@ -1,6 +1,10 @@
 from flask import Flask
 from flasgger import Swagger
 from routes import bp, redis_client, request, jsonify
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 # app.config.from_pyfile('config.cfg')

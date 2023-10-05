@@ -1,5 +1,9 @@
 from pymongo import MongoClient
 from datetime import datetime
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def get_current_date():
@@ -12,10 +16,10 @@ def get_current_date():
 
 class Database:
     def __init__(self):
-        # self.client = MongoClient(getenv('MONGODB_URI'))
-        self.client = MongoClient('mongodb://127.0.0.1:27017/blog_collections')
-        self.db = self.client['blog_app']
-        # self.db = self.client[getenv('MONGODB_DB')]
+        self.client = MongoClient(getenv('MONGODB_URI'))
+        # self.client = MongoClient('mongodb://127.0.0.1:27017/blog_collections')
+        # self.db = self.client['blog_app']
+        self.db = self.client[getenv('MONGODB_DB')]
         self.users_collection = self.db['users']
         self.posts_collection = self.db['posts']
 

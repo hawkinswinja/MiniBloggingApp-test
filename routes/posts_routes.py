@@ -76,7 +76,7 @@ def insert_article():
             "author_id": author_id,
         }
         result = storage.insert_post(article_data)
-        return jsonify(str(result.inserted_id)), 201
+        return jsonify(f"New article ID: {str(result.inserted_id)}"), 201
     return "Forbidden Request", 403
 
 
@@ -107,9 +107,9 @@ def delete_article(article_id):
             if str(post['_id']) == article_id:
                 result = storage.delete_post(article_id)
                 if result and result.deleted_count == 1:
-                    return jsonify({"Success": "Article successfully deleted"}), 204
+                    return jsonify("Article successfully deleted"), 204
                 else:
-                    return jsonify({"Error": "Please Try again"}), 404
+                    return jsonify("Error: Please Try again"), 404
     return 'Forbidden request', 403
 
 
