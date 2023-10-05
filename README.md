@@ -61,6 +61,10 @@ Optionally, you can utilize Docker to spin up the application
     ```
     blog-app> logout 12345678
     ```
+### Running tests
+- ```
+       python -m unittest discover tests
+   ```
 
 
 

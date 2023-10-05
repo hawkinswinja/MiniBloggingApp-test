@@ -17,8 +17,6 @@ def get_current_date():
 class Database:
     def __init__(self):
         self.client = MongoClient(getenv('MONGODB_URI'))
-        # self.client = MongoClient('mongodb://127.0.0.1:27017/blog_collections')
-        # self.db = self.client['blog_app']
         self.db = self.client[getenv('MONGODB_DB')]
         self.users_collection = self.db['users']
         self.posts_collection = self.db['posts']
