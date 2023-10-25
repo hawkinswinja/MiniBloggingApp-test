@@ -1,10 +1,10 @@
 import redis
 from flask import Blueprint, jsonify
 from flasgger import swag_from
-from db import Database
+from db import Database, getenv
 
 # Create a Redis client
-redis_client = redis.Redis(host='localhost', port=6379, decode_responses=True)
+redis_client = redis.Redis(host=getenv('REDIS_HOST','localhost'), port=6379, decode_responses=True)
 
 
 storage = Database()
