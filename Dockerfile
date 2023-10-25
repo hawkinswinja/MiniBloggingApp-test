@@ -4,6 +4,7 @@ RUN adduser -D -g '' user
 WORKDIR /blog
 ENV MONGODB_URI='mongodb://db:27017'
 ENV MONGODB_DB='blog'
+ENV REDIS_HOST='redis'
 EXPOSE 5000
 COPY requirements.txt /blog/
 RUN pip install -r requirements.txt
