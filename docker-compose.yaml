@@ -1,7 +1,7 @@
 version: '3'
 services:
   blog-app:
-    image: blog_app
+    image: hawkinswinja/blog_app:1.0.0
     depends_on:
       - redis
       - db
@@ -9,9 +9,9 @@ services:
       - '5000:5000'
   db:
     image: mongo:4
-    ports:
+    expose:
       - '6379'
   redis:
      image: redis:alpine
-     ports:
+     expose:
       - '27017'
