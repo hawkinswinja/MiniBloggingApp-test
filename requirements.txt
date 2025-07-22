@@ -26,4 +26,4 @@ requests==2.31.0
 rpds-py==0.10.3
 six==1.16.0
 urllib3==2.0.6
-Werkzeug==3.0.0
+Werkzeug==3.0.6
